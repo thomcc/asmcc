@@ -3,7 +3,7 @@ A small tool to view the assembly or LLVM IR produced by clang. Essentially a co
 
 The basic idea is that you run the `asmcc` command and it opens up a text editor window for you. You enter the desired code into said editor, and it compiles the code to assembly and writes the result to stdout. If there's a compilation error, it will ask you if you want to reopen the code in an editor to try again. You can do this as many times as you want.
 
-Depending on the options you invoke it with, you can run it on a file (bypassing the text editor), write the result to a file, emit llvm, control the language used, etc. See Usage for full list of options.
+Depending on the options you invoke it with, you can run it on a file (bypassing the text editor), write the result to a file, emit llvm IR, control the language used, etc. See Usage for full list of options.
 
 I'm not a ruby programmer by any stretch of the imagination, and it's grown organically over the past year or so. As a result, the script itself is fairly messy, but it works well enough.
 
@@ -44,11 +44,13 @@ Complete list of options: Note that the `=` between the long form options is opt
 - C++ is the default language.
 - Exceptions are off by default.
 - RTTI is off by default.
-- Only tested on Mac (but should work on other unices).
+- Only tested on Mac (but should probably work on other unices. Let me know if you have a problem).
 
-## TODO
-- Allow user to specify the default options and templates in a config file.
+## TODO (someday)
+- Allow user to specify the default options and templates using a config file.
 - Support gcc.
+- Turn into a gem for easier distribution.
+- Allow user to change the compiler/asmcc options after compilation fails.
 
 ## License
 Public domain, as described here: [http://creativecommons.org/publicdomain/zero/1.0/](CC0). I don't care what you do with it.
