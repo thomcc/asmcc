@@ -27,7 +27,7 @@ You also should set either the `EDITOR` or `VISUAL` environment variables to you
 ### Options
 Note that the `=` between the long version is optional.
 
-- `-g`, `--debug-info`: Tell the compiler to generate debug info. This results in more code, but can be helpful when reading the code.
+- `-g`, `--debug-info`: Tell the compiler to generate debug info.
 - `-O LEVEL`, `--opt-level=LEVEL`: Set optimization level, which should be `0`, `1`, `2`, `3`, or `s`. Defaults to `3`.
 - `-l LANG`, `--lang=LANG`: Compile a `LANG` file, where `LANG` is one of `c++`, `c`, `objective-c`, `objective-c++`. Defaults to `c++`.
 - `-s STD`, `--std=STD`. Passes `-std=STD` to the compiler. If the given standard doesn't make sense for the chosen language, it uses the default. Defaults to `c++1y` if the language is C++ or Objective C++, and `c11` if the language is C or Objective C.
