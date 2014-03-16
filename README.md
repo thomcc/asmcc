@@ -62,11 +62,5 @@ Note that the `=` between the long version is optional.
 - RTTI is off by default.
 - Only tested on Mac (but should probably work on other unices. Let me know if you have a problem).
 
-## TODO (someday)
-- Allow user to specify the default options and templates using a config file.
-- Support gcc.
-- Turn into a gem for easier distribution.
-- Allow user to change the compiler/asmcc options after compilation fails.
-
 ## License
 Public domain, as described here: [http://creativecommons.org/publicdomain/zero/1.0/](CC0). I don't care what you do with it.
