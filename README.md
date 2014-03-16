@@ -10,7 +10,9 @@ I'm not a ruby programmer by any stretch of the imagination, and it's grown orga
 ## Usage
 
 ### Dependencies
-You need to have clang installed and on your path to use it.  You also need a ruby installation, version 2.0 or higher ideally, but it will probably work with a lower version (let me know if it does not).  It has no dependencies on any other programs/gems/libraries.
+You need to have clang and c++filt installed and on your path to use it (you probably have c++filt already).
+You also need a ruby installation, version 2.0 or higher ideally, but it will probably work with a lower version (let me know if it does not).  It has no dependencies on any other programs/gems/libraries.
+
 
 ### Installing
 Install by downloading the `asmcc` script and putting it in your path somewhere. Probably the best way to do this is to clone the repo and symlink it there.
@@ -52,7 +54,7 @@ Note that the `=` between the long version is optional.
 - `-T FILE`, `--template=FILE`: Use `FILE` as a template. Like `-i FILE` but lets you modify the file in a text editor before trying to compile.
 - `-v`, `--verbose`: Pass `-v` to the compiler.
 - `-h`, `--help`: Print out a help summary and exit.
-- `-d`, `--demangle`: Demangle c++ identifiers (runs code through `c++filt`).
+- `--[no-]demangle`: Enable/disable demangling of C++ identifiers (runs code through `c++filt`). Ignored for C/Objective C code, on by default for C++.
 
 ## Caveats
 - C++ is the default language. The default standard is `c++1y`.

@@ -90,7 +90,7 @@ class AsmCC
     @edit_asm = false
     @show_encoding = false
     @debug = false
-    @demangle = false
+    @demangle = true
     @emit_llvm = false
 
     @combined_output = false
@@ -211,8 +211,8 @@ class AsmCC
         end
       end
 
-      opts.on('-d', '--demangle', 'Demangle C++ identifiers (requires `c++filt`, ignored for c and objc)') do
-        @demangle = true
+      opts.on('--[no-]demangle', 'Demangle C++ identifiers (requires `c++filt`, ignored for c and objc)') do |d|
+        @demangle = false
       end
 
       opts.on('-v', '--verbose', 'Pass -v to the compiler') do
@@ -365,7 +365,7 @@ class AsmCC
   end
 
   def compiled_with comment_str
-    cmd = "clang #{flags_summary} | "
+    cmd = "clang #{flags_summary} "
     cmd += " | clang -cc1as -show-encoding" if @show_encoding
     cmd += " | c++filt" if should_demangle
     "#{comment_str} Compiled with `#{cmd}`\n"
