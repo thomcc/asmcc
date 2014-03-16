@@ -26,12 +26,10 @@ CXX_TEMPLATE = <<-CODE_EOF
 #define LIKELY(X)     __builtin_expect(!!(X), 1)
 #define UNLIKELY(X)   __builtin_expect(!!(X), 0)
 
-extern "C" {
-  bool equ(uint64_t a, uint64_t b) {
-    return a == b;
-  }
+uint64_t factorial(uint64_t arg) {
+  if (arg <= 1) return 1;
+  return arg * fact(arg - 1);
 }
-
 CODE_EOF
 
 
@@ -55,10 +53,10 @@ C_TEMPLATE = <<-CODE_EOF
 #define LIKELY(X)     __builtin_expect(!!(X), 1)
 #define UNLIKELY(X)   __builtin_expect(!!(X), 0)
 
-bool equ(uint64_t a, uint64_t b) {
-  return a == b;
+uint64_t factorial(uint64_t arg) {
+  if (arg <= 1) return 1;
+  return arg * fact(arg - 1);
 }
-
 CODE_EOF
 
 
