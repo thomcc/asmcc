@@ -14,17 +14,6 @@ CXX_TEMPLATE = <<-CODE_EOF
 #include <cstring>
 #include <climits>
 
-#define FORCE_INLINE  __attribute__((always_inline)) inline
-#define READ_NONE     __attribute__((const))
-#define READ_ONLY     __attribute__((pure))
-#define NOTHROW       __attribute__((nothrow))
-#define NORETURN      __attribute__((noreturn))
-#define PACKED        __attribute__((packed))
-#define ALIGNED(X)    __attribute__((aligned(X)))
-#define UNREACHABLE() __builtin_unreachable()
-#define LIKELY(X)     __builtin_expect(!!(X), 1)
-#define UNLIKELY(X)   __builtin_expect(!!(X), 0)
-
 uint64_t factorial(uint64_t arg) {
   if (arg <= 1) return 1;
   return arg * factorial(arg - 1);
@@ -39,17 +28,6 @@ C_TEMPLATE = <<-CODE_EOF
 #include <string.h>
 #include <limits.h>
 #include <stdbool.h>
-
-#define FORCE_INLINE  __attribute__((always_inline)) inline
-#define READ_NONE     __attribute__((const))
-#define READ_ONLY     __attribute__((pure))
-#define NOTHROW       __attribute__((nothrow))
-#define NORETURN      __attribute__((noreturn))
-#define PACKED        __attribute__((packed))
-#define ALIGNED(X)    __attribute__((aligned(X)))
-#define UNREACHABLE() __builtin_unreachable()
-#define LIKELY(X)     __builtin_expect(!!(X), 1)
-#define UNLIKELY(X)   __builtin_expect(!!(X), 0)
 
 uint64_t factorial(uint64_t arg) {
   if (arg <= 1) return 1;
