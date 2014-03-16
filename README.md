@@ -8,13 +8,24 @@ Depending on the options you invoke it with, you can run it on a file (bypassing
 I'm not a ruby programmer by any stretch of the imagination, and it's grown organically over the past year or so. As a result, the script itself is fairly messy, but it works well enough.
 
 ## Usage
-Install by downloading the `asmcc` script and putting it in your path somewhere. Or cloning this repo and symlinking the asmcc script to somewhere on your path.
 
+### Dependencies
 You need to have clang installed and on your path to use it.  You also need a ruby installation, version 2.0 or higher ideally, but it will probably work with a lower version (let me know if it does not).  It has no dependencies on any other programs/gems/libraries.
+
+### Installing
+Install by downloading the `asmcc` script and putting it in your path somewhere. Probably the best way to do this is to clone the repo and symlink it there.
+
+For example, if you have a `~/bin` folder on your path, you might install it like this:
+
+```
+$ git clone https://github.com/thomcc/asmcc.git
+$ ln -s asmcc/asmcc ~/bin/asmcc
+```
 
 You also should set either the `EDITOR` or `VISUAL` environment variables to your preferred text editor. `asmcc` expects that calling one of these commands will block until the file closes.
 
-Complete list of options: Note that the `=` between the long form options is optional.
+### Options
+Note that the `=` between the long version is optional.
 
 - `-g`, `--debug-info`: Tell the compiler to generate debug info. This results in more code, but can be helpful when reading the code.
 - `-O LEVEL`, `--opt-level=LEVEL`: Set optimization level, which should be `0`, `1`, `2`, `3`, or `s`. Defaults to `3`.
@@ -26,10 +37,11 @@ Complete list of options: Note that the `=` between the long form options is opt
 - `--m32`: Generate 32 bit code (pass `-m32` to the compiler).
 - `--m64`: Generate 64 bit code (pass `-m64` to the compiler).
 - `-X list,of,flags`, `--Xcc=list,of,flags`: Escape hatch which allows you to pass whatever options you want to the compiler. These are passed at the end, so they'll override earlier ones if you want.
-- `-e` `--[no-]exceptions`: Turn on exceptions. These are off by default, because they bloat the generated and causes it to be more difficult to read.
-- `-r` `--[no-]rtti`: Turn on rtti. This is off by default for the same reason as exceptions.
-- `-E`, `--edit-result`: Open asmcc's output in a text editor. The output, in this case, is your input file followed by the generated code in comments.
-- `-o FILE`, `--out FILE`: Write asmcc's output to `FILE`. If this is used with `-E`, it will open `FILE` in the text editor.
+- `-e` `--[no-]exceptions`: Turn on c++ and objective-c exceptions.  These are off by default, because they bloat the generated and causes it to be more difficult to read.
+- `-r` `--[no-]rtti`: Turn on c++ runtime type information. This is off by default for the same reason as exceptions.
+- `-E`, `--edit-result`: Open asmcc's output in a text editor. See also `-C`.
+- `-o FILE`, `--out FILE`: Write asmcc's output to `FILE`. If this is used with `-E`, it will open `FILE` in the text editor. See also `-C`.
+- `-C`, `--combined-output`: Output both the source fed to the compiler and the generated assembly (as well as the flags passed to the compiler, as always). Useful if you intend to show your output to other people. (Places the generated code in the comments of a copy of the input file)
 - `-D L,I,S,T`, `--define L,I,S,T`: passes `-DL -DI -DS -DT` to the compiler.
 - `-U L,I,S,T`, `--undef L,I,S,T`: passes `-UL -UI -US -UT` to the compiler. These override symbols defined with `-D`, as they are passed to the compiler after.
 - `-W w0,w1,w2`, `--warn=list,of,warnings`: Passes warnings to the compiler. By default `-Wall` and `-Wextra` are passed in. (NB: This will normalize the names of what you pass in: `--warn=all,extra`, `--warn=Wall,Wextra`, and `--warn=-Wall,-Wextra` will all mean the same thing).
@@ -41,7 +53,7 @@ Complete list of options: Note that the `=` between the long form options is opt
 - `-h`, `--help`: Print out a help summary and exit.
 
 ## Caveats
-- C++ is the default language.
+- C++ is the default language. The default standard is `c++1y`.
 - Exceptions are off by default.
 - RTTI is off by default.
 - Only tested on Mac (but should probably work on other unices. Let me know if you have a problem).

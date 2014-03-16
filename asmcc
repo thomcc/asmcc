@@ -94,6 +94,8 @@ class AsmCC
     @debug = false
     @emit_llvm = false
 
+    @combined_output = false
+
     @std = "c++1y"
     @lang = :"c++"
   end
@@ -179,6 +181,10 @@ class AsmCC
 
       opts.on('-S', '--show-encoding', 'Show encoding?') do
         @show_encoding = true
+      end
+
+      opts.on('-C', '--combined-output', 'Output both the source fed into the compiler and the generated assembly') do
+        @combined_output = true
       end
 
       opts.on('-o', '--out FILE', 'Output to FILE instead of stdout.') do |f|
@@ -331,7 +337,7 @@ class AsmCC
   end
 
   def to_warning(s)
-    s.strip.sub /^(?:-W)?/, "-W"
+    s.strip.sub /^(?:-?W)?/, "-W"
   end
 
   def to_include(s)
@@ -339,7 +345,7 @@ class AsmCC
   end
 
   def flags_summary
-    flags.reject{|f| /^-[WIDU]/ =~ f}.join ' '
+    flags.reject{|f| /^-[WI]/ =~ f}.join ' '
   end
 
   def invoke_compiler path
@@ -400,25 +406,25 @@ class AsmCC
       exit(1) unless try_again? "Compilation failed, try again?", true
     end
 
-
     if @edit_asm or not @output.nil?
-      source = IO.read path
-
       out_path = @output.nil? ? path : @output
-
-      File.open(out_path, 'w') do |f|
-        f.print source
-        f.print "\n\n// ###### Generated code:\n"
-        f.print "// #{compiled_with}\n\n"
-        f.print compiled.each_line.to_a.map{|line| "// #{line.gsub(/([^\t]*)(\t)/) { $1 + " " * (8 - $1.length % 8) }}"}.join
-        f.print "\n"
-      end
-
+      File.open(out_path, 'w') { |f| output f, (IO.read path), compiled }
       edit_file out_path if @edit_asm
     else
-      puts "#{compiled_with}:\n\n"
-      puts compiled.each_line.to_a.map{|line| "#{line.gsub(/([^\t]*)(\t)/) { $1 + " " * (8 - $1.length % 8) }}"}.join
+      output $stdout, (IO.read path), compiled
     end
+  end
+
+  def output f, source, compiled
+    if @combined_output
+      f.puts source
+      f.puts "\n/******* Generated code *********/"
+      f.puts "/* #{compiled_with}\n"
+    else
+      f.puts "#{@emit_llvm ? ';' : '#'} #{compiled_with}:\n"
+    end
+    f.puts compiled.each_line.to_a.map{|line| "#{line.gsub(/([^\t]*)(\t)/) { $1 + " " * (8 - $1.length % 8) }}"}.join
+    f.puts "\n*/" if @combined_output
   end
 
 end
