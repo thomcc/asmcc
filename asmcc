@@ -28,7 +28,7 @@ CXX_TEMPLATE = <<-CODE_EOF
 
 uint64_t factorial(uint64_t arg) {
   if (arg <= 1) return 1;
-  return arg * fact(arg - 1);
+  return arg * factorial(arg - 1);
 }
 CODE_EOF
 
@@ -55,7 +55,7 @@ C_TEMPLATE = <<-CODE_EOF
 
 uint64_t factorial(uint64_t arg) {
   if (arg <= 1) return 1;
-  return arg * fact(arg - 1);
+  return arg * factorial(arg - 1);
 }
 CODE_EOF
 
