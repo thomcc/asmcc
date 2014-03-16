@@ -47,6 +47,7 @@ Note that the `=` between the long version is optional.
 - `-W w0,w1,w2`, `--warn=list,of,warnings`: Passes warnings to the compiler. By default `-Wall` and `-Wextra` are passed in. (NB: This will normalize the names of what you pass in: `--warn=all,extra`, `--warn=Wall,Wextra`, and `--warn=-Wall,-Wextra` will all mean the same thing).
 - `-I dir0,dir1,dir2`, `--include=list,of,directories`: Add directories to the compilers list of include search paths, e.g. passes `-Ilist`, `-Iof`, `-Idirectories` to the compiler. By default it passes `-I. -I./include -I/usr/local/include` to the compiler.
 - `-S`, `--show-encoding`: Show the assembly's binary encoding in comments. Only valid if `--emit-llvm` isn't selected.
+- `--no-verbose-asm`: Disable verbose assembly output (which is enabled by default). Irrelevant if used with `-E`.
 - `-i FILE`, `--input=FILE`: Read file as input instead of opening it in an editor. If you choose this option and you get a compilation error, it copies the contents of the file to a temp file, which it opens in an editor for you (thus sparing you from needing to change your file).
 - `-T FILE`, `--template=FILE`: Use `FILE` as a template. Like `-i FILE` but lets you modify the file in a text editor before trying to compile.
 - `-v`, `--verbose`: Pass `-v` to the compiler.

@@ -87,6 +87,8 @@ class AsmCC
 
     @force_bits = nil
 
+    @verbose_asm = true
+
     @edit_asm = false
     @show_encoding = false
     @debug = false
@@ -159,6 +161,10 @@ class AsmCC
 
       opts.on('-E', '--edit-result', 'Open output file in editor.') do
         @edit_asm = true
+      end
+
+      opts.on('--no-verbose-asm', 'Disable verbose assembly output.') do
+        @verbose_asm = false
       end
 
       opts.on('-D', '--define l,i,s,t', Array, 'Pass -Dl -Di -Ds -Dt to the compiler.') do |ds|
@@ -311,8 +317,7 @@ class AsmCC
       #{@force_bits.nil? ? '' : "-m#{@force_bits}"}
       -S
       #{@emit_llvm ? '-emit-llvm': ''}
-      -Xclang -masm-verbose
-      -fomit-frame-pointer
+      #{@verbose_asm ? '-Xclang -masm-verbose' : ''}
 
       -std=#{@std}
       #{stdlib_flag}
@@ -399,7 +404,7 @@ class AsmCC
         return [false]
       end
     end
-    [true, outf]
+    [true, out]
   end
 
   def template
