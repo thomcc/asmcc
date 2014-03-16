@@ -361,12 +361,45 @@ class AsmCC
     command += " | c++filt" if should_demangle
   end
 
-  def invoke_compiler path
-    `#{compiler_cmd path, false}`
+  def compiled_with comment_str
+    cmd = "clang #{flags_summary} | "
+    cmd += " | clang -cc1as -show-encoding" if @show_encoding
+    cmd += " | c++filt" if should_demangle
+    "#{comment_str} Compiled with `#{cmd}`\n"
   end
 
-  def compiled_with comment_str
-    "#{comment_str} Compiled with `#{compiler_cmd "", true}`\n"
+  def invoke_compiler path
+    # this is getting pretty hacky
+    out = IO.popen("clang #{flag_str} #{path} -o '-'") do |pipe|
+      pipe.read
+    end
+
+    unless $?.exitstatus == 0
+      return [false]
+    end
+
+    if @show_encoding
+      out = IO.popen('clang -cc1as -show-encoding', 'r+') do |pipe|
+        pipe.write out
+        pipe.close_write
+        pipe.read
+      end
+      unless $?.exitstatus == 0
+        return [false]
+      end
+    end
+
+    if should_demangle
+      out = IO.popen('c++filt', 'r+') do |pipe|
+        pipe.write out
+        pipe.close_write
+        pipe.read
+      end
+      unless $?.exitstatus == 0
+        return [false]
+      end
+    end
+    [true, outf]
   end
 
   def template
@@ -384,7 +417,6 @@ class AsmCC
 
     compiled = nil
     file = nil
-    success = false
 
     if @input.nil?
       templ = template
@@ -400,15 +432,18 @@ class AsmCC
     file.close()
 
     compiled = nil
-    success = false
     tried_once = false
 
     while true
       edit_file path if @input.nil? or tried_once
       tried_once = true
-      compiled = invoke_compiler path
-      break if success = $?.exitstatus == 0
-      exit(1) unless try_again? "Compilation failed, try again?", true
+      result = invoke_compiler path
+      if result[0]
+        compiled = result[1]
+        break
+      elsif not try_again? "Compilation failed, try again?", true
+        exit(1)
+      end
     end
 
     if @edit_asm or not @output.nil?
