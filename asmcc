@@ -92,6 +92,7 @@ class AsmCC
     @edit_asm = false
     @show_encoding = false
     @debug = false
+    @demangle = false
     @emit_llvm = false
 
     @combined_output = false
@@ -206,6 +207,10 @@ class AsmCC
           puts "Warning: Unable to read template file: \"#{f}\", ignoring -T option..."
           @custom_template = nil
         end
+      end
+
+      opts.on('-d', '--demangle', 'Demangle C++ identifiers (requires `c++filt`, ignored for c and objc)') do
+        @demangle = true
       end
 
       opts.on('-v', '--verbose', 'Pass -v to the compiler') do
@@ -348,20 +353,22 @@ class AsmCC
     flags.reject{|f| /^-[WI]/ =~ f}.join ' '
   end
 
-  def invoke_compiler path
-    if @show_encoding
-      `clang #{flag_str} #{path} -o '-' | clang -cc1as -show-encoding`
-    else
-      `clang #{flag_str} #{path} -o '-'`
-    end
+  def should_demangle
+    @demangle and is_cxx?()
   end
 
-  def compiled_with
-    if @show_encoding
-      "Compiled with `clang #{flags_summary} -o '-' | clang -cc1as -show-encoding`"
-    else
-      "Compiled with `clang #{flags_summary}`"
-    end
+  def compiler_cmd path, summarize
+    command = "clang " + (summarize ? flags_summary : "#{flag_str} #{path} -o '-'")
+    command += " | clang -cc1as -show-encoding" if @show_encoding
+    command += " | c++filt" if should_demangle
+  end
+
+  def invoke_compiler path
+    `#{compiler_cmd path, false}`
+  end
+
+  def compiled_with comment_str
+    "#{comment_str} Compiled with `#{compiler_cmd "", true}`\n"
   end
 
   def template
@@ -419,9 +426,9 @@ class AsmCC
     if @combined_output
       f.puts source
       f.puts "\n/******* Generated code *********/"
-      f.puts "/* #{compiled_with}\n"
+      f.puts compiled_with "/*"
     else
-      f.puts "#{@emit_llvm ? ';' : '#'} #{compiled_with}:\n"
+      f.puts compiled_with @emit_llvm ? ';' : '#'
     end
     f.puts compiled.each_line.to_a.map{|line| "#{line.gsub(/([^\t]*)(\t)/) { $1 + " " * (8 - $1.length % 8) }}"}.join
     f.puts "\n*/" if @combined_output

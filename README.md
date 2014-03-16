@@ -51,6 +51,7 @@ Note that the `=` between the long version is optional.
 - `-T FILE`, `--template=FILE`: Use `FILE` as a template. Like `-i FILE` but lets you modify the file in a text editor before trying to compile.
 - `-v`, `--verbose`: Pass `-v` to the compiler.
 - `-h`, `--help`: Print out a help summary and exit.
+- `-d`, `--demangle`: Demangle c++ identifiers (runs code through `c++filt`).
 
 ## Caveats
 - C++ is the default language. The default standard is `c++1y`.
