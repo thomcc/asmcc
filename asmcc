@@ -13,7 +13,6 @@ CXX_TEMPLATE = <<-CODE_EOF
 #include <cstddef>
 #include <cstring>
 #include <climits>
-#include <x86intrin.h>
 
 #define FORCE_INLINE  __attribute__((always_inline)) inline
 #define READ_NONE     __attribute__((const))
@@ -39,7 +38,6 @@ C_TEMPLATE = <<-CODE_EOF
 #include <stddef.h>
 #include <string.h>
 #include <limits.h>
-#include <x86intrin.h>
 #include <stdbool.h>
 
 #define FORCE_INLINE  __attribute__((always_inline)) inline
