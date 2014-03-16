@@ -1,9 +1,3 @@
-#!/usr/bin/env ruby
-# asmcc
-# This is a small script which calls clang to compile files to assembly or llvm-ir
-# in an interactive manner. It was written by Thom Chiovoloni and released into
-# the public domain as explained here: http://creativecommons.org/publicdomain/zero/1.0/
-
 require 'optparse'
 require 'tempfile'
 
@@ -449,5 +443,3 @@ class AsmCC
   end
 
 end
-
-AsmCC.new.run

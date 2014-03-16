@@ -11,20 +11,17 @@ I'm not a ruby programmer by any stretch of the imagination, and it's grown orga
 
 ### Dependencies
 You need to have clang and c++filt installed and on your path to use it (you probably have c++filt already).
-You also need a ruby installation, version 2.0 or higher ideally, but it will probably work with a lower version (let me know if it does not).  It has no dependencies on any other programs/gems/libraries.
+You also need a ruby installation, version 2.0 or higher ideally, but it will probably work with a lower version (let me know if it does not work with your system's default ruby).  It has no dependencies on any other programs/gems/libraries.
 
 
 ### Installing
-Install by downloading the `asmcc` script and putting it in your path somewhere. Probably the best way to do this is to clone the repo and symlink it there.
-
-For example, if you have a `~/bin` folder on your path, you might install it like this:
+AsmCC is now packaged as a gem for easier installation. You should be able to install it by running.
 
 ```
-$ git clone https://github.com/thomcc/asmcc.git
-$ ln -s asmcc/asmcc ~/bin/asmcc
+$ gem install asmcc
 ```
 
-You also should set either the `EDITOR` or `VISUAL` environment variables to your preferred text editor. `asmcc` expects that calling one of these commands will block until the file closes.
+You also should set either the `EDITOR` or `VISUAL` environment variables to your preferred text editor if they are not set already. `asmcc` expects that calling one of these commands will block until the file closes.
 
 ### Options
 Note that the `=` between the long version is optional.
