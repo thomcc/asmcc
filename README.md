@@ -1,5 +1,5 @@
 # asmcc
-A small tool to view the assembly or LLVM IR produced by clang. Essentially a command-line version of the now-defunct [http://llvm.org/demo/](llvm online demo page).
+A small tool to view the assembly or LLVM IR produced by clang. Essentially a command-line version of the now-defunct [llvm online demo page](http://llvm.org/demo/).
 
 The basic idea is that you run the `asmcc` command and it opens up a text editor window for you. You enter the desired code into said editor, and it compiles the code to assembly and writes the result to stdout. If there's a compilation error, it will ask you if you want to reopen the code in an editor to try again. You can do this as many times as you want.
 
